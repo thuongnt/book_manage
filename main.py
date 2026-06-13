@@ -12,51 +12,14 @@
 #Trong khi còn chọn từ 1 đến 6 thì chương trình vẫn chạy, chọn số nào, gọi hàm đó.
 #Khi nào break thì thoát hẳn chương trình
 
-books = []
 
+try:
+    file = open("books.txt", "x")
+except FileExistsError:
+    print("File đã tồn tại, sẽ mở file để đọc dữ liệu")
+    file = open("books.txt", "r")
 
-def show_all_books():
-    if books:
-        for book in books:
-            print(book)
-    else:
-        print("Không có cuốn sách nào")
-
-
-def search_book(title):
-    for book in books:
-        if book["title"] == title:
-            return book
-    return None
-
-
-def add_book(book):
-    books.append(book)
-
-
-def count_read_book():
-    count = 0
-    for book in books:
-        if book.get("completed") == True:
-            count += 1
-    return count
-
-
-def update_completed_book(title):
-    for book in books:
-        if book["title"] == title:
-            book["completed"] = True
-            return True
-    return False
-
-
-def delete_book(title):
-    for book in books:
-        if book["title"] == title:
-            books.remove(book)
-            return True
-    return False
-
+from book import *
 
 while True:
     print("1. Hien thi thu viện")
@@ -66,7 +29,13 @@ while True:
     print("5. Cap Nhat sach da doc")
     print("6. Xoa sách")
     print("7. Thoát chương trình")
-    select = int(input("Hay chon tu 1 den 7: "))
+    
+    try:
+        select = int(input("Hay chon tu 1 den 7: "))
+    except ValueError:
+        print("Vui lòng nhập một số hợp lệ.")
+        continue
+
     if select == 1:
         show_all_books()
     elif select == 2:
@@ -78,8 +47,8 @@ while True:
             print(result)
     elif select == 3:
         book = {}
-        print("Hay nhap sach muốn thêm")
-        title = input("Nhap ten sach")
+        print("Hay nhap sach muốn thêm vào thư viện: ")
+        title = input("Nhap ten sach: ")
         completed = int(input("Đã đọc nhập 1, chưa đọc nhập 0: "))
         book["title"] = title
         if completed ==1:
